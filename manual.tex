@@ -182,6 +182,12 @@ the thickness of ``boundary'' vertices. A $-1$
 entry in a list $L_i$ (necessarily of length 2) denotes a ``boundary'' vertex, which
 will correspond to a boundary loop in the associated triangular mesh.
 
+\medskip
+
+The way the surface is obtained from the graph implicitly assumes that the edges are
+bounded away from vertical, and the cyclic order on edges at each vertex
+agrees with the cyclic order of their projection to the $x$--$y$ plane.
+
 \section{Program interface}\label{section:interface}
 
 Running the program on a file in consistent wire or graph format will open an X-window
