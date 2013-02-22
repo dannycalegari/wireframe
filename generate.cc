@@ -16,6 +16,44 @@ int reverse_ej(int i, int j, imat GRF){
 	return(L);
 };
 
+double xyangle(point P){
+	return(atan2(P[1],P[0]));
+};
+
+void adjust_edge_orders(imat &GRF, vpoint &GLC){	
+	// reorders edges incident to each vertex so projections to the x-y plane are in cyclic order
+	// since edge valences are very small, use bubble sort
+	int i,j,k,l;
+	mat M;
+	
+	M=XRmat(0.01);	// slight perturbation to eliminate vertical edges
+	for(i=0;i<(int) GLC.size();i++){
+		GLC[i]=M*(GLC[i]);	
+	};
+	
+	for(i=0;i<(int) GRF.size();i++){	// for each vertex
+		j=0;
+		if(GRF[i].size()>2){
+			while(j<(int) GRF[i].size()-1){	// sort edges incident to each vertex
+				if(j<0){
+					j++;
+				};
+				k=GRF[i][j];
+				l=GRF[i][j+1];
+				if(xyangle(GLC[k]-GLC[i])>xyangle(GLC[l]-GLC[i])){
+					GRF[i][j]=l;
+					GRF[i][j+1]=k;
+					j--;
+				} else {
+					j++;
+				};
+			};
+		};
+	};
+
+};
+
+
 void mesh::generate_mesh(ifstream &input_file){	// generate mesh by thickening planar fatgraph
 	ADJ.resize(0);
 	LOC.resize(0);
@@ -62,6 +100,8 @@ void mesh::generate_mesh(ifstream &input_file){	// generate mesh by thickening p
 		input_file >> outcolor[i];
 	};	
 	input_file.close();
+	
+	adjust_edge_orders(GRF,GLC);
 	
 	/* determine W; i.e. labels for vertices in ADJ associated to vertices of GRF */
 	W=GRF;	

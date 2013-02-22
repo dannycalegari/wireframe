@@ -66,6 +66,8 @@ int main(int argc, char *argv[]){
 	cout << "Press arrow keys to rotate mesh.\n";
 	cout << "Press [+/-] to make bigger/smaller.\n";
 	cout << "Press [e] for .eps output.\n";
+	cout << "Press [w] to write mesh to file.\n";
+	cout << "Press [p] to write in povray format.\n";
 	cout << "Press [q] to quit.\n\n";
 	
 	if(argc<=2){	
@@ -83,7 +85,7 @@ int main(int argc, char *argv[]){
 			M.generate_mesh(input_file);
 		};
 	};
-
+	
 	M.generate_face_list();
 	M.compute_normals();
 	
@@ -92,6 +94,6 @@ int main(int argc, char *argv[]){
 	XFlush(display);
 	
 	M.interface();
-	
+
 	return(0);
 };

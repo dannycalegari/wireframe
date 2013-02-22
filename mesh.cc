@@ -23,12 +23,15 @@ class mesh{   //	triangular mesh
   		
   		// function to generate mesh with prescribed topology
   		void generate_mesh(ifstream &input_file);	// generate mesh by thickening graph
+//  		void generate_better_mesh(ifstream &input_file);	// alternate method to generate mesh
   		
   		// functions to read mesh from file
   		void read_mesh(ifstream &input_file);	// read mesh from file
   		
   		// functions to write mesh to screen or file
   		void write_mesh_to_cout();	// write mesh to cout
+  		void write_mesh_to_file();	// write mesh to file
+		void write_povray_file();	// write mesh in povray format
   		
   		// functions to determine combinatorics
   		int reverse_edge(int i,int j);	// inverse adjacency data

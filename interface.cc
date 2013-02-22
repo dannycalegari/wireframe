@@ -104,6 +104,14 @@ void mesh::interface(){
                 	eps_draw();
                 	break;
                 };
+                if(XLookupKeysym(&report.xkey, 0) == XK_w){		// write mesh output
+                	write_mesh_to_file();
+                	break;
+                };
+                if(XLookupKeysym(&report.xkey, 0) == XK_p){		// write povray output
+                	write_povray_file();
+                	break;
+                };
             default:
             	break;
         };

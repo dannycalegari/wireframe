@@ -153,6 +153,80 @@ void mesh::eps_draw(){	// write mesh to .eps file
 	cout << "wrote to file.\n";
 };
 
+void mesh::write_mesh_to_file(){	// write mesh to file
+	string S;
+	ofstream output_file;
+	int i,j;
+	
+	cout << "Enter name of file to write to: ";
+	getline(cin, S, '\n');
+	cout << "Writing to file " << S << "\n";
+	output_file.open(S.c_str());
+	
+	output_file << (int) ADJ.size() << "\n";	// number of vertices
+
+	for(i=0;i<(int) ADJ.size();i++){
+		output_file << (int) ADJ[i].size() << "    ";	// valence
+		for(j=0;j<(int) ADJ[i].size();j++){
+			output_file << ADJ[i][j] << " ";	// adjacency data
+		};
+		output_file << "    " << LOC[i][0] << " " << LOC[i][1] << " " << LOC[i][2] << "\n";
+	};
+
+	for(i=0;i<3;i++){	// incolor
+		output_file << incolor[i] << " ";
+	};
+	output_file << "\n";
+
+	for(i=0;i<3;i++){	// outcolor
+		output_file << outcolor[i] << " ";
+	};
+	output_file.close();
+	
+	cout << "wrote to file.\n";
+};
+
+void mesh::write_povray_file(){		// write output in povray format
+	string S;
+	ofstream output_file;
+	int i,j,k,l;
+	
+	cout << "Enter name of file to write to: ";
+	getline(cin, S, '\n');
+	cout << "Writing to file " << S << "\n";
+	output_file.open(S.c_str());
+	
+	output_file << "camera { \n";
+	output_file << "	location <0, 0, 3>\n";
+	output_file << "	look_at <0, 0, 0>\n";
+	output_file << "} \n";
+	output_file << "background {color rgb <1,1,1>}\n";
+	output_file << "light_source { <0, 0, 10> color rgb<1, 1, 1> }\n";
+	output_file << "#declare Topcolor = texture {\n";
+	output_file << "	pigment { color rgb< ";
+	output_file << outcolor[0] << " , " << outcolor[1] << " , " << outcolor[2] << " > }\n";
+	output_file << "	finish { ambient 0.2 diffuse 0.5 }\n";
+	output_file << "}\n";
+	output_file << "mesh {\n";
+	
+	sort_faces();
+	for(i=0;i<(int) FAC.size();i++){
+		j=FAC[i][0];
+		k=FAC[i][1];
+		l=FAC[i][2];
+		output_file << "	triangle { <" << LOC[j][0] << " , " << LOC[j][1] << " , " << LOC[j][2] << " >,";
+		output_file << " <" << LOC[k][0] << " , " << LOC[k][1] << " , " << LOC[k][2] << " >,";
+		output_file << " <" << LOC[l][0] << " , " << LOC[l][1] << " , " << LOC[l][2] << " >\n";
+		output_file << "		texture { Topcolor }\n";
+		output_file << "	}\n";
+	};
+			
+	output_file << "}\n";
+	output_file.close();
+	
+	cout << "wrote to file.\n";
+};
+
 void mesh::write_mesh_to_cout(){	// write mesh to cout
 	int i,j;
 	for(i=0;i<(int) ADJ.size();i++){

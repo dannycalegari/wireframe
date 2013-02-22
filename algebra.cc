@@ -149,3 +149,11 @@ point newpoint(double x, double y, double z){
 	V[2]=z;
 	return(V);
 };
+
+point random_point(){
+	point V;
+	V[0]=(((double) (rand() % 200))/100.0)-1.0;
+	V[1]=(((double) (rand() % 200))/100.0)-1.0;
+	V[2]=(((double) (rand() % 200))/100.0)-1.0;
+	return(V);
+};
