@@ -46,20 +46,23 @@ This program can be used to easily create .eps figures of rendered three-dimensi
 for inclusion in scientific articles.
 
 \begin{figure}[ht]
-  \caption{A once-punctured torus in {\tt shaded} mode}\label{punct}
+  \caption{A high genus surface with thin necks in {\tt shaded} mode}\label{skeleton}
   \centering
-    \includegraphics[width=0.5\textwidth]{punct}
+    \includegraphics[width=0.5\textwidth]{skeleton}
 \end{figure}
 
-Figure~\ref{punct}
-gives an example of a once-punctured torus in {\tt shaded} mode.
+Figure~\ref{skeleton} gives an example of a high genus surface in {\tt shaded} mode.
 Figure~\ref{braid_iso} gives an example of a closed braided surface in {\tt isobar} mode. 
+Figure~\ref{red_hand} gives an example of a surface with several boundary components in {\tt shaded}
+mode.
 
 \begin{figure}[ht]
   \caption{A braided surface in {\tt isobar} mode}\label{braid_iso}
   \centering
     \includegraphics[width=0.5\textwidth]{braid_iso}
 \end{figure}
+
+
 
 \section{Installing the program}\label{section:installation}
 
@@ -207,18 +210,24 @@ sets of the $z$ coordinate which are integer multiples of some specified value.}
 or divides the spacing by $1.1$.}
 \item{[s] subdivides and smooths mesh. The subdivision adds one new vertex for each edge. The new vertex
 is displaced in the normal direction to make the new surface ``rounder''.}
+\item{[r] retriangulates to shorten edges. A quadrilateral can be triangulated in 2 ways by adding
+a diagonal; a $2$--$2$ move toggles between the two different triangulations. Every non-boundary edge
+in a triangulation is the diagonal of some quadrilateral. This operation performs $2$--$2$ moves which
+definitely shorten the total length of the $1$-skeleton. Note that this changes the ``combinatorial
+conformal structure'' of the triangulation, and in combination with the curvature flow operation
+will tend to produce surfaces with thin necks.}
 \item{[c] flows the surface by curvature. This is a very crude implementation of (combinatorial) mean
-curvature flow which tries to equalize edge lengths.}
+curvature flow which tries to equalize edge lengths. Actually, it is more of an energy flow, since it
+does not retriangulate the surface. Can be used effectively in conjunction with the retriangulation operation.}
 \item{[t] trim pyramids. A ``pyramid'' is a 3-valent vertex. Such vertices tend to give rise to
 strange artifacts when smoothed or flowed; this command trims them off.}
 \item{[arrow keys] to rotate mesh. Each keypress rotates by $0.1$ radians in the $x$--$z$ plane or
 the $y$--$z$ plane.}
 \item{[$+/-$] to make mesh bigger/smaller. Each keypress multiplies or divides the scale by $1.05$.}
 \item{[e] for .eps output. The user will be prompted for a file name to write .eps output to.}
-\item{[w] for .wire output. The user will be prompted for a file name to write a mesh in
-wire format.}
-\item{[p] for .pov output. The user will be prompted for a file name to write a mesh in
-povray format.}
+\item{[w] for .wire output. The user will be prompted for a file name to write .wire output to.}
+\item{[p] for .pov output. The user will be prompted for a file name to write .pov output to, which
+can then be imported into povray and rendered.}
 \item{[q] to quit.}
 \end{itemize}
 
@@ -230,5 +239,10 @@ released under the terms of the GNU GPL License version 3.0.
 
 \noindent Version 1.0 of {\tt wireframe} was released February 19, 2013 and is copyright Danny Calegari.
 
+\begin{figure}[ht]
+  \caption{A surface with boundary in {\tt shaded} mode}\label{red_hand}
+  \centering
+  	\includegraphics[width=0.5\textwidth]{red_hand}
+\end{figure}
 
 \end{document}

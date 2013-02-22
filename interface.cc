@@ -3,6 +3,7 @@
 void mesh::interface(){
 	bool finished;
 	ipoint p;
+	int i;
 
 	finished=false;
 	while(finished==false){
@@ -92,6 +93,14 @@ void mesh::interface(){
                 	curvature_flow();
                 	erase_field();
                 	draw_mesh();
+                	break;
+                };
+                if(XLookupKeysym(&report.xkey, 0) == XK_r){		// retriangulate
+                	i=retriangulate();
+                	if(i>0){
+	                	erase_field();
+    	            	draw_mesh();
+    	            };
                 	break;
                 };
                 if(XLookupKeysym(&report.xkey, 0) == XK_t){		// trim pyramids

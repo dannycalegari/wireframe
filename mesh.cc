@@ -35,16 +35,18 @@ class mesh{   //	triangular mesh
   		
   		// functions to determine combinatorics
   		int reverse_edge(int i,int j);	// inverse adjacency data
+  		bool adjacent(int i,int j);	// is vertex j adjacent to vertex i?
   		void generate_face_list();	// determine face list from vertex list
   		void sort_faces();	// order face list by height
   		int boundary_edge(int v);	// which edge points to boundary, if any?
   		
   		// functions to modify mesh
-  		void linear_transformation(mat M);
-  		void compute_normals();
-  		void subdivide();	
-  		void curvature_flow();
-  		void trim_pyramids();
+  		void linear_transformation(mat M);	// apply linear map M to each vertex
+  		void compute_normals();		// compute average of neighboring face normals at each vertex
+  		void subdivide();	// subdivision with one new vertex for each edge, then flow in the normal direction
+  		void curvature_flow();	// try to reduce a combinatorial mean curvature, while keeping edge lengths comparable
+  		void trim_pyramids();	// cut off 3-valent vertices
+  		int retriangulate();	// do 2-2 moves to reduce total edge length; returns number of edges switched
   		
   		// functions to draw mesh
   		void draw_mesh();	// draw mesh in some way
@@ -69,6 +71,19 @@ int mesh::reverse_edge(int i, int j){
 		};
 	};
 	return(L);
+};
+
+bool mesh::adjacent(int i, int j){
+	bool is_adjacent;
+	int k;
+	
+	is_adjacent=false;
+	for(k=0;k<(int) ADJ[i].size();k++){
+		if(ADJ[i][k]==j){
+			is_adjacent=true;
+		};
+	};
+	return(is_adjacent);
 };
 
 int mesh::boundary_edge(int v){		
@@ -419,9 +434,57 @@ void mesh::curvature_flow(){
 		};
 	};
 	LOC=NEW_LOC;
-
+	if(verbose){
+		cout << "Did curvature flow step.\n";
+	};
 	compute_normals();
 };
+
+int mesh::retriangulate(){		// do 2-2 moves to reduce total edge length; returns number of edges switched
+	int i,j,k,l,m,n,o,p,s;
+	bool short_loop;
+	
+	s=0;	// initialize count of number of edges switched
+	
+	for(i=0;i<(int) ADJ.size();i++){
+		for(j=0;j<(int) ADJ[i].size();j++){
+			k=ADJ[i][j];
+			if(k>i){	// otherwise we have already examined this edge
+				l=reverse_edge(i,j);	// ADJ[k][l]=i. Note: this is true, since k!=-1
+				assert(ADJ[k][l]==i);
+				if((int) ADJ[i].size()>3 && (int) ADJ[k].size()>3){		// can't create 2-valent vertices
+					m=ADJ[i][(j+1)%(int) ADJ[i].size()];
+					n=ADJ[k][(l+1)%(int) ADJ[k].size()];
+					if(m!=-1 && n!=-1){	// edge should not be a boundary edge; 
+						// test to make sure m and n are not already adjacent
+						if(adjacent(m,n)==false){
+							o=reverse_edge(i,(j+1)%(int) ADJ[i].size());
+							p=reverse_edge(k,(l+1)%(int) ADJ[k].size());
+							assert(ADJ[m][o]==i);
+							assert(ADJ[n][p]==k);
+							if(norm(LOC[n]-LOC[m])<0.9*norm(LOC[k]-LOC[i])){	
+								// if 2-2 move would shorten edge a definite amount
+								ADJ[m].insert(ADJ[m].begin()+o+1, n);	// add new edge
+								ADJ[n].insert(ADJ[n].begin()+p+1, m);
+								ADJ[i].erase(ADJ[i].begin()+j);		// delete old edge
+								ADJ[k].erase(ADJ[k].begin()+l);
+								s++;	// count of number of edges switched
+							};
+						};
+					};
+				};
+			};
+		};
+	};
+	
+	if(verbose){
+		cout << "Retriangulated. Switched " << s << " edges.\n";
+	};
+	generate_face_list();
+	compute_normals();
+	return(s);
+};
+
 
 void mesh::draw_mesh(){
 	if(WIRE){
