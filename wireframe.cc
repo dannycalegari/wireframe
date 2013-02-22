@@ -61,6 +61,7 @@ int main(int argc, char *argv[]){
 	cout << "Press [i] to toggle between shade/isobar.\n";
 	cout << "Press [1/2] to make isobars sparser/denser.\n";
 	cout << "Press [s] to subdivide and smooth mesh.\n";
+	cout << "Press [r] to retriangulate to shorten edges.\n";
 	cout << "Press [c] to do curvature flow.\n";
 	cout << "Press [t] to trim pyramids.\n";
 	cout << "Press arrow keys to rotate mesh.\n";

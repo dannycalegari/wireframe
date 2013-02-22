@@ -442,7 +442,6 @@ void mesh::curvature_flow(){
 
 int mesh::retriangulate(){		// do 2-2 moves to reduce total edge length; returns number of edges switched
 	int i,j,k,l,m,n,o,p,s;
-	bool short_loop;
 	
 	s=0;	// initialize count of number of edges switched
 	
