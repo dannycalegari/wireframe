@@ -35,20 +35,20 @@ interactive commands
 After the program is launched, a graphical window opens and displays
 the mesh. The following commands are available:
 
-*[f] toggles between solid and wireframe
-*[v] toggles between verbose and silent
-*[i] toggles between shaded and isobar rendering
-*[1/2] makes isobars sparser/denser
-*[s] subdivides and smooths mesh
-*[r] retriangulates to shorten edges
-*[c] flows the surface by curvature (really, energy)
-*[t] trims pyramids (3-valent vertices)
-*[arrow keys] to rotate mesh
-*[+/-] to make mesh bigger/smaller
-*[e] for output to file in .eps format
-*[w] for output to file in wire format
-*[p] for output to file in povray format
-*[q] to quit
+* [f] toggles between solid and wireframe
+* [v] toggles between verbose and silent
+* [i] toggles between shaded and isobar rendering
+* [1/2] makes isobars sparser/denser
+* [s] subdivides and smooths mesh
+* [r] retriangulates to shorten edges
+* [c] flows the surface by curvature (really, energy)
+* [t] trims pyramids (3-valent vertices)
+* [arrow keys] to rotate mesh
+* [+/-] to make mesh bigger/smaller
+* [e] for output to file in .eps format
+* [w] for output to file in wire format
+* [p] for output to file in povray format
+* [q] to quit
 
 
 manual
