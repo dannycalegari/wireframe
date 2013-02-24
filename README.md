@@ -5,6 +5,8 @@ wireframe is a simple program for creating 3d surfaces, and outputting
 them in a variety of formats. It is designed especially to create
 .eps figures for inclusion in mathematics papers.
 
+![red hand](https://raw.github.com/dannycalegari/wireframe/master/red_hand.png)
+
 
 file formats
 ------------
